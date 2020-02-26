@@ -11,10 +11,10 @@ export const UserCard = ({ user }) => {
 	} = user || {};
 
 	return (
-		<div>
+		<div className="user-card">
 			<img src={avatarUrl} alt="User profile" />
-			<h2>{name}</h2>
-			<div>
+			<div className="user-card-body">
+				<h2>{name}</h2>
 				<p>Public Repos: <strong>{publicRepos}</strong></p>
 				<p>Blog: <strong>{blog}</strong></p>
 			</div>
