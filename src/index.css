@@ -7,9 +7,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body .App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1 {
+  margin: 0;
+}
+
+header {
+  padding: 1.5rem 0;
+}
+
+.footer {
+  padding: 1rem;
+  background: #d05352;
+  color: #fff;
 }
 
 .visually-hidden {
