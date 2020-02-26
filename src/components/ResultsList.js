@@ -1,59 +1,50 @@
 // this component loads repos results onMount
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import Axios from 'axios';
 
 import { ResultCard } from './ResultCard';
 import { Loader } from './Loader';
 
-export class ResultsList extends Component {
-	state = {
-		repos: [],
-		loading: false,
-		error: '',
-	};
+export const ResultsList = ({ url }) => {
+	const [repos, setRepos] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
-	async componentDidMount() {
-		if (this.props.url) {
-			// set loading
-			this.setState({ loading: true });
+	useEffect(() => {
+		const fetch = async () => {
+			setLoading(true);
 
 			try {
-				const response = await Axios.get(this.props.url);
+				const response = await Axios.get(url);
 
-				this.setState({
-					repos: response.data,
-				})
+				setRepos(response.data)
 			} catch (e) {
 				console.log(e);
 
-				this.setState({
-					error: 'There has been an error fetching'
-				})
+				setError('There has been an error fetching')
 			}
-
-			this.setState({ loading: false });
-		}
-	}
-
-	render() {
-		
-		if (this.state.loading) {
-			return (
-				<Loader />
-			)
+			setLoading(false);
 		}
 
-		return this.state.repos.length > 0 ? (
-			<>
-				<h3>Repos list</h3>
-				<ul className="repo-list">
-					{this.state.repos.map(repo =>
-						<li key={repo.id}>
-							<ResultCard repo={repo} />
-						</li>
-					)}
-				</ul>
-			</>
-		) : null;
+		fetch();
+	}, [url]);
+
+	if (loading) {
+		return (
+			<Loader />
+		)
 	}
+
+	return repos.length > 0 ? (
+		<>
+			<h3>Repos list</h3>
+			<ul className="repo-list">
+				{repos.map(repo =>
+					<li key={repo.id}>
+						<ResultCard repo={repo} />
+					</li>
+				)}
+			</ul>
+		</>
+	) : null;
 }
